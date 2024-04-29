@@ -1,7 +1,24 @@
+import random
 
+def gerar_cpf() -> str:
+    #            #convertendo em int novamente   Transformando em um interavel:
+    #nove_digitos_aleatorios
+    nove_digitos_aleatorios = [int(n) for n in str(random.randint(111111111,999999999))]
+    
+    penultimo_digito = validar_ultimos_digitos(nove_digitos_aleatorios)
 
-def gerar_cpf():
-    pass 
+    ultimo_digito = validar_ultimos_digitos(nove_digitos_aleatorios,True,penultimo_digito)
+    
+    
+    # Gerando cpf formatado
+
+    n = nove_digitos_aleatorios # Sem deep copy
+
+    cpf_formatado = f"{n[0]}{n[1]}{n[2]}.{n[3]}{n[4]}{n[5]}.{n[6]}{n[7]}{n[8]}-{penultimo_digito}{ultimo_digito}"
+    
+    #print(validar_cpf(cpf_formatado))
+
+    return cpf_formatado
 
 
 def validar_ultimos_digitos(nove_primeiros_digitos,segundo_digito=False,primeiro_digito=0) -> int:
@@ -28,14 +45,15 @@ def validar_ultimos_digitos(nove_primeiros_digitos,segundo_digito=False,primeiro
     return soma_valores_resultado
 
 
-def validar_cpf(cpf):
+def validar_cpf(cpf) -> str:
     if cpf:
         cpf_dividido = cpf.split("-")
-
+        
+        #                lista de inteiros                [1,2,3,4,5]
         nove_primeiros_digitos = [int(n) for n in cpf_dividido[0] if n != "."]
+        
         numeros_validadores = cpf_dividido[1]
 
-        
         primeiro_digito_validado = validar_ultimos_digitos(nove_primeiros_digitos)
         segundo_digito_validado = validar_ultimos_digitos(nove_primeiros_digitos,True,primeiro_digito_validado)
 
@@ -49,8 +67,9 @@ def validar_cpf(cpf):
     else:
         return "CPF INVALIDO!"
 
-def main():
-    print(validar_cpf("")) # 720.812.670-47
+def main() -> None:
+    cpf = gerar_cpf()
+    print(validar_cpf(cpf))
 
 
 if __name__ == "__main__":
@@ -81,5 +100,4 @@ contrário disso:
 
 O primeiro dígito do CPF é 7
 """
-
 
